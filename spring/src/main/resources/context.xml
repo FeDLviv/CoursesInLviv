@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="client" class="fed.spring.beans.Client">
+		<constructor-arg index="0" value="1"/>
+		<constructor-arg value="John Smith"/>
+	</bean>
+	
+	<bean id="eventLogger" class="fed.spring.loggers.ConsoleEventLogger"/>
+	
+	<bean id="fileEventLogger" class="fed.spring.loggers.FileEventLogger" 
+		init-method="init">
+		<constructor-arg value="log.txt"></constructor-arg>
+	</bean>
+	
+	<bean id="cacheFileEventLogger" class="fed.spring.loggers.CacheFileEventLogger" 
+		init-method="init" destroy-method="destroy">
+		<constructor-arg value="log.txt"></constructor-arg>
+		<constructor-arg value="5"></constructor-arg>
+	</bean>
+	
+	<bean id="app" class="fed.spring.App">
+		<constructor-arg ref="client"/>
+		<constructor-arg ref="cacheFileEventLogger"/>
+	</bean>
+	
+	<bean id="event" class="fed.spring.beans.Event" scope="prototype">
+		<constructor-arg>
+			<bean class="java.util.Date"/>		
+		</constructor-arg>
+		<constructor-arg>
+			<bean class="java.text.DateFormat" factory-method="getDateTimeInstance" />
+		</constructor-arg>
+	</bean>
+
+</beans>
