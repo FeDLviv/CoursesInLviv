@@ -1,25 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<import resource="loggers.xml"/>
+	
+	<!-- підключення файлів .properties -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<!-- шлях до всіх файлів, які будуть підключені -->
+		<property name="locations">
+			<list>
+				<value>classpath:client.properties</value>
+			</list>
+		</property>
+		<!-- вказуємо ігнорування відсутніх ресурсів -->
+		<property name="ignoreResourceNotFound" value="true"></property>
+		<!-- де шукати, якщо ключ не знайдено в файлах .properties -->
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"></property>	
+	</bean>	
 
 	<bean id="client" class="fed.spring.beans.Client">
-		<constructor-arg index="0" value="1"/>
-		<constructor-arg value="John Smith"/>
-		<property name="greeting" value="Hello!"></property>
+		<constructor-arg index="0" value="${id}"/>
+		<constructor-arg value="${name}"/>
+		<property name="greeting" value="${greeting}"></property>
 	</bean>
+		
+	<util:map id="loggerMap">
+		<entry key="INFO" value-ref="consoleEventLogger"/>
+		<entry key="ERROR" value-ref="combinedEventLogger"/>
+	</util:map>	
 		
 	<bean id="app" class="fed.spring.App">
 		<constructor-arg ref="client"/>
 		<constructor-arg ref="cacheFileEventLogger"/>
-		<constructor-arg>
-			<map>
-				<entry key="INFO" value-ref="consoleEventLogger"/>
-				<entry key="ERROR" value-ref="combinedEventLogger"/>
-			</map>
-		</constructor-arg>
+		<constructor-arg ref="loggerMap" />
 	</bean>
 	
 	<bean id="event" class="fed.spring.beans.Event" scope="prototype">
@@ -30,5 +50,8 @@
 			<bean class="java.text.DateFormat" factory-method="getDateTimeInstance" />
 		</constructor-arg>
 	</bean>
+	
+	<bean id="monitor" class="fed.spring.util.Monitor"/>
+    <bean id="aware" class="fed.spring.util.AwareBean" init-method="init"/>
 
 </beans>
