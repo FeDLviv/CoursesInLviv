@@ -1,39 +1,53 @@
 package fed.spring;
 
+import java.util.Map;
+
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import fed.spring.beans.Client;
 import fed.spring.beans.Event;
+import fed.spring.beans.EventType;
 import fed.spring.loggers.EventLogger;
 
 public class App {
 
 	private Client client;
-	private EventLogger eventLogger;
+	private EventLogger defaultLogger;
+	private Map<EventType, EventLogger> loggers;
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
 		App app = (App) context.getBean("app");
 
 		Event event = context.getBean(Event.class);
-		app.logEvent(event, "Some event for user 1");
+		app.logEvent(EventType.INFO, event, "Some event for user 1");
 
 		event = context.getBean(Event.class);
-		app.logEvent(event, "Some event for user 2");
+		app.logEvent(EventType.ERROR, event, "Some event for user 2 (error)");
+
+		event = context.getBean(Event.class);
+		app.logEvent(null, event, "Some event for user 3");
 
 		context.close();
 	}
 
-	public App(Client client, EventLogger eventLogger) {
+	public App(Client client, EventLogger defaultLogger, Map<EventType, EventLogger> loggers) {
 		this.client = client;
-		this.eventLogger = eventLogger;
+		this.defaultLogger = defaultLogger;
+		this.loggers = loggers;
 	}
 
-	public void logEvent(Event event, String msg) {
+	public void logEvent(EventType type, Event event, String msg) {
 		String message = msg.replaceAll(client.getId(), client.getFullName());
 		event.setMsg(message);
-		eventLogger.logEvent(event);
+
+		EventLogger logger = loggers.get(type);
+		if (logger == null) {
+			logger = defaultLogger;
+		}
+
+		logger.logEvent(event);
 	}
 
 }

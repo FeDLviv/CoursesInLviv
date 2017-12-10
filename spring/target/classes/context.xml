@@ -8,11 +8,18 @@
 	<bean id="client" class="fed.spring.beans.Client">
 		<constructor-arg index="0" value="1"/>
 		<constructor-arg value="John Smith"/>
+		<property name="greeting" value="Hello!"></property>
 	</bean>
 		
 	<bean id="app" class="fed.spring.App">
 		<constructor-arg ref="client"/>
 		<constructor-arg ref="cacheFileEventLogger"/>
+		<constructor-arg>
+			<map>
+				<entry key="INFO" value-ref="consoleEventLogger"/>
+				<entry key="ERROR" value-ref="combinedEventLogger"/>
+			</map>
+		</constructor-arg>
 	</bean>
 	
 	<bean id="event" class="fed.spring.beans.Event" scope="prototype">
