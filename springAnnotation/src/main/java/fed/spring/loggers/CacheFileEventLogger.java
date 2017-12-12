@@ -20,7 +20,7 @@ import fed.spring.beans.Event;
 @Component
 public class CacheFileEventLogger extends FileEventLogger {
 
-	@Value("${cache.size:5}")
+	@Value("5")
 	private int cacheSize;
 	private List<Event> cache;
 
@@ -30,12 +30,11 @@ public class CacheFileEventLogger extends FileEventLogger {
 	public CacheFileEventLogger(String fileName, int cacheSize) {
 		super(fileName);
 		this.cacheSize = cacheSize;
-		cache = new ArrayList<Event>(cacheSize);
 	}
 
 	@PostConstruct
 	public void initCache() {
-		this.cache = new ArrayList<Event>(cacheSize);
+		cache = new ArrayList<Event>(cacheSize);
 	}
 
 	@PreDestroy
@@ -52,6 +51,7 @@ public class CacheFileEventLogger extends FileEventLogger {
 			} catch (IOException e) {
 				System.out.println("Exception: " + e.getMessage());
 			}
+			cache.clear();
 		}
 	}
 

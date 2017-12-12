@@ -21,15 +21,15 @@ public class AwareBean implements ApplicationContextAware, BeanNameAware, Applic
 	public void init() {
 		System.out.println(this.getClass().getSimpleName() + " -> My name is '" + name + "'");
 		if (context != null) {
-			System.out.println(this.getClass().getSimpleName() + " > My context is " + context.getClass());
+			System.out.println(this.getClass().getSimpleName() + " -> My context is " + context.getClass());
 		} else {
-			System.out.println(this.getClass().getSimpleName() + " > Context is not set");
+			System.out.println(this.getClass().getSimpleName() + " -> Context is not set");
 		}
 		if (eventPublisher != null) {
 			System.out
-					.println(this.getClass().getSimpleName() + " > My eventPublisher is " + eventPublisher.getClass());
+					.println(this.getClass().getSimpleName() + " -> My eventPublisher is " + eventPublisher.getClass());
 		} else {
-			System.out.println(this.getClass().getSimpleName() + " > EventPublisher is not set");
+			System.out.println(this.getClass().getSimpleName() + " -> EventPublisher is not set");
 		}
 	}
 

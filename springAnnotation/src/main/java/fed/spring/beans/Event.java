@@ -23,6 +23,7 @@ public class Event {
 	private DateFormat dateFormat;
 
 	public Event() {
+		id = ++ID;
 	}
 
 	public Event(Date date, DateFormat dateFormat) {

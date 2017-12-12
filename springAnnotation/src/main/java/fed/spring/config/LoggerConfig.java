@@ -9,18 +9,12 @@ import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import fed.spring.beans.EventType;
 import fed.spring.loggers.EventLogger;
 
 @Configuration
 public class LoggerConfig {
-
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {
-		return new PropertySourcesPlaceholderConfigurer();
-	}
 
 	@Resource(name = "consoleEventLogger")
 	private EventLogger consoleEventLogger;
