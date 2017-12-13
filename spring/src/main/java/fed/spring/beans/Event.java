@@ -1,6 +1,7 @@
 package fed.spring.beans;
 
 import java.text.DateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Event {
@@ -16,6 +17,11 @@ public class Event {
 		id = ++ID;
 		this.date = date;
 		this.dateFormat = dateFormat;
+	}
+
+	public static boolean isDay() {
+		int h = LocalDateTime.now().getHour();
+		return (h >= 8 && h <= 17);
 	}
 
 	public String getMsg() {

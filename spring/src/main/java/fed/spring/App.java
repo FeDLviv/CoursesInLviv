@@ -15,10 +15,13 @@ public class App {
 	private Client client;
 	private EventLogger defaultLogger;
 	private Map<EventType, EventLogger> loggers;
+	private String startMsg;
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
 		App app = (App) context.getBean("app");
+
+		System.out.println(app.startMsg);
 
 		Event event = context.getBean(Event.class);
 		app.logEvent(EventType.INFO, event, "Some event for user 1");
@@ -36,6 +39,10 @@ public class App {
 		this.client = client;
 		this.defaultLogger = defaultLogger;
 		this.loggers = loggers;
+	}
+
+	public void setStartMsg(String msg) {
+		this.startMsg = msg;
 	}
 
 	public void logEvent(EventType type, Event event, String msg) {

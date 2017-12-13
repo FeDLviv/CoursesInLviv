@@ -38,8 +38,9 @@
 		
 	<bean id="app" class="fed.spring.App">
 		<constructor-arg ref="client"/>
-		<constructor-arg ref="cacheFileEventLogger"/>
+		<constructor-arg value="#{T(fed.spring.beans.Event).isDay() ? cacheFileEventLogger : consoleEventLogger}"/>
 		<constructor-arg ref="loggerMap" />
+		<property name="startMsg" value="#{'Hello user ' + (systemProperties['os.name'].contains('Windows') ?  systemEnvironment['USERNAME'] : systemEnvironment['USER'])}"/>
 	</bean>
 	
 	<bean id="event" class="fed.spring.beans.Event" scope="prototype">
