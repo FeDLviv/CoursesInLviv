@@ -1,6 +1,7 @@
 package fed.spring.beans;
 
 import java.text.DateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class Event {
 	private Date date;
 	@Autowired
 	private DateFormat dateFormat;
+
+	public static boolean isDay() {
+		int h = LocalDateTime.now().getHour();
+		return (h >= 8 && h <= 17);
+	}
 
 	public Event() {
 		id = ++ID;

@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +21,12 @@ public class App {
 
 	@Autowired
 	private Client client;
-	@Resource(name = "defaultLogger")
+	@Value("#{T(fed.spring.beans.Event).isDay() ? cacheFileEventLogger : consoleEventLogger}")
 	private EventLogger defaultLogger;
 	@Resource(name = "loggerMap")
 	private Map<EventType, EventLogger> loggers;
+	@Value("#{'Hello user ' + (systemProperties['os.name'].contains('Windows') ?  systemEnvironment['USERNAME'] : systemEnvironment['USER'])}")
+	private String startMsg;
 
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
@@ -33,8 +36,7 @@ public class App {
 
 		App app = (App) context.getBean("app");
 
-		Client client = context.getBean(Client.class);
-		System.out.println("Client says: " + client.getGreeting());
+		System.out.println(app.startMsg);
 
 		Event event = context.getBean(Event.class);
 		app.logEvent(EventType.INFO, event, "Some event for user 1");
