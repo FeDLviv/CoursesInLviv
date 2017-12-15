@@ -10,6 +10,7 @@
     http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<import resource="loggers.xml"/>
+	<import resource="aspects.xml" />
 	
 	<!-- підключення файлів .properties -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -41,6 +42,7 @@
 		<constructor-arg value="#{T(fed.spring.beans.Event).isDay() ? cacheFileEventLogger : consoleEventLogger}"/>
 		<constructor-arg ref="loggerMap" />
 		<property name="startMsg" value="#{'Hello user ' + (systemProperties['os.name'].contains('Windows') ?  systemEnvironment['USERNAME'] : systemEnvironment['USER'])}"/>
+		<property name="statisticsAspect" ref="statisticsAspect"/>
 	</bean>
 	
 	<bean id="event" class="fed.spring.beans.Event" scope="prototype">
