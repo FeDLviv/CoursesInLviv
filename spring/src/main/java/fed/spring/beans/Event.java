@@ -24,6 +24,10 @@ public class Event {
 		return (h >= 8 && h <= 17);
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
 	public String getMsg() {
 		return msg;
 	}
