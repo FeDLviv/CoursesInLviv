@@ -14,7 +14,7 @@
     <bean id="statisticsAspect" class="fed.spring.aspects.StatisticsAspect"/>
        
     <bean id="consoleLoggerLimitAspect" class="fed.spring.aspects.ConsoleLoggerLimitAspect">
-        <constructor-arg value="${console.logger.max:2}"/> 
+        <constructor-arg value="2"/> 
         <constructor-arg ref="fileEventLogger"/>
     </bean>
 
