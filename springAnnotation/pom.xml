@@ -15,6 +15,7 @@
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     	<spring.version>3.2.3.RELEASE</spring.version>
     	<aspectj.version>1.8.9</aspectj.version>
+    	<mysql_jdbc.version>6.0.6</mysql_jdbc.version>
   	</properties>
 
 	<dependencies>
@@ -38,6 +39,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+		<!-- MySQL JDBC Driver -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>${mysql_jdbc.version}</version>
 		</dependency>
 		<!-- AspectJ -->
 		<dependency>

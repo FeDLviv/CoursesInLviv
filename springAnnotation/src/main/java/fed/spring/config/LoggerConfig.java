@@ -6,15 +6,25 @@ import java.util.EnumMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import fed.spring.beans.EventType;
 import fed.spring.loggers.EventLogger;
 
 @Configuration
+@PropertySource("classpath:db.properties")
 public class LoggerConfig {
+
+	@Autowired
+	private Environment environment;
 
 	@Resource(name = "consoleEventLogger")
 	private EventLogger consoleEventLogger;
@@ -47,6 +57,22 @@ public class LoggerConfig {
 	@Bean
 	public EventLogger defaultLogger() {
 		return cacheFileEventLogger;
+	}
+
+	@Bean
+	public DataSource dataSource() {
+		DriverManagerDataSource ds = new DriverManagerDataSource();
+		ds.setDriverClassName(environment.getProperty("mysql.driverClassName"));
+		ds.setUrl(environment.getRequiredProperty("mysql.url"));
+		ds.setUsername(environment.getRequiredProperty("mysql.username"));
+		ds.setPassword(environment.getRequiredProperty("mysql.password"));
+		return ds;
+	}
+
+	@Autowired
+	@Bean
+	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+		return new JdbcTemplate(dataSource);
 	}
 
 }

@@ -23,7 +23,7 @@ public class App {
 
 	@Autowired
 	private Client client;
-	@Value("#{T(fed.spring.beans.Event).isDay() ? cacheFileEventLogger : consoleEventLogger}")
+	@Value("#{T(fed.spring.beans.Event).isDay() ? consoleEventLogger : dbLogger}")
 	private EventLogger defaultLogger;
 	@Resource(name = "loggerMap")
 	private Map<EventType, EventLogger> loggers;

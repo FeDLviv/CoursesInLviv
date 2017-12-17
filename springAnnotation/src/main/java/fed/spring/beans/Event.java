@@ -38,6 +38,10 @@ public class Event {
 		this.dateFormat = dateFormat;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
 	public String getMsg() {
 		return msg;
 	}
