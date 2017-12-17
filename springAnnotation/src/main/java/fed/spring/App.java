@@ -1,6 +1,7 @@
 package fed.spring;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
+import fed.spring.aspects.StatisticsAspect;
 import fed.spring.beans.Client;
 import fed.spring.beans.Event;
 import fed.spring.beans.EventType;
@@ -27,6 +29,8 @@ public class App {
 	private Map<EventType, EventLogger> loggers;
 	@Value("#{'Hello user ' + (systemProperties['os.name'].contains('Windows') ?  systemEnvironment['USERNAME'] : systemEnvironment['USER'])}")
 	private String startMsg;
+	@Autowired
+	private StatisticsAspect statisticsAspect;
 
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
@@ -46,6 +50,8 @@ public class App {
 
 		event = context.getBean(Event.class);
 		app.logEvent(null, event, "Some event for user 3");
+
+		app.outputLoggingCounter();
 
 		context.close();
 	}
@@ -69,6 +75,15 @@ public class App {
 		}
 
 		logger.logEvent(event);
+	}
+
+	private void outputLoggingCounter() {
+		if (statisticsAspect != null) {
+			System.out.println("Loggers statistics. Number of calls: ");
+			for (Entry<Class<?>, Integer> entry : statisticsAspect.getCounter().entrySet()) {
+				System.out.println("    " + entry.getKey().getSimpleName() + ": " + entry.getValue());
+			}
+		}
 	}
 
 }

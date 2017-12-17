@@ -16,7 +16,7 @@ import fed.spring.beans.Event;
 @Component
 public class FileEventLogger implements EventLogger {
 
-	@Value("${events.file:log.txt}")
+	@Value("log.txt")
 	protected String fileName;
 
 	public FileEventLogger() {
