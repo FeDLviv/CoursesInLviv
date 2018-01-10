@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="changelog-1.1" author="fed">
+        <insert tableName="Author">
+            <column name="id_author" valueNumeric="1"/>
+            <column name="name" value="Fed"/>
+        </insert>
+        <insert tableName="Author">
+            <column name="id_author" valueNumeric="2"/>
+            <column name="name" value="Test"/>
+        </insert>
+        <insert tableName="Book">
+            <column name="id_book" valueNumeric="1"/>
+            <column name="name" value="D book"/>
+            <column name="id_author" valueNumeric="1"/>
+        </insert>
+        <insert tableName="Book">
+            <column name="id_book" valueNumeric="2"/>
+            <column name="name" value="C book"/>
+            <column name="id_author" valueNumeric="1"/>
+        </insert>
+        <insert tableName="Book">
+            <column name="id_book" valueNumeric="3"/>
+            <column name="name" value="B book"/>
+            <column name="id_author" valueNumeric="2"/>
+        </insert>
+        <insert tableName="Book">
+            <column name="id_book" valueNumeric="4"/>
+            <column name="name" value="A book"/>
+            <column name="id_author" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
